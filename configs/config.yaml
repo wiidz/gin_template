@@ -1,0 +1,16 @@
+env: dev
+http:
+  ip: "0.0.0.0"
+  port: "8081"
+http2:
+  client:
+    ip: "0.0.0.0"
+    port: "8080"
+  console:
+    ip: "0.0.0.0"
+    port: "8082"
+db:
+  dsn: ""       # e.g. user:pass@tcp(127.0.0.1:3306)/dbname?parseTime=true&loc=Local
+  autoMigrate: false
+
+

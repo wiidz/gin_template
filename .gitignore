@@ -1,0 +1,52 @@
+# Build outputs
+bin/
+build/
+dist/
+out/
+tmp/
+
+# Go build/test cache artifacts
+*.test
+*.out
+*.cover
+
+# Logs and runtime files
+*.log
+*.tmp
+*.swp
+
+# IDE/editor settings
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Dependency/vendor caches
+vendor/
+
+# Environment files
+.env
+.env.*
+# Binaries
+bin/
+dist/
+
+# IDE
+.idea/
+.vscode/
+
+# Go
+*.test
+coverage.out
+
+# Env/Config
+.env
+.env.local
+
+# Air
+tmp/
+.air.toml
+
+
