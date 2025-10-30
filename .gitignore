@@ -4,6 +4,7 @@ build/
 dist/
 out/
 tmp/
+.gocache/
 
 # Go build/test cache artifacts
 *.test
