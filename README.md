@@ -17,15 +17,18 @@ make run
 
 ### Bootstrap new project
 
-Use the helper script to copy this template and rewrite the module path quickly:
+使用 Go CLI（可编译为二进制，更适合全局调用）：
 
 ```bash
-scripts/new_project.sh my_service --module github.com/you/my_service
+go run ./cmd/gt new my_service --module github.com/you/my_service
+# 或者本地编译后放到 PATH 中
+go build -o ~/bin/gt ./cmd/gt && gt new my_service --module github.com/you/my_service
+# 或直接安装远程版本
+go install github.com/wiidz/gin_template/cmd/gt@latest
 ```
 
-- 默认目标目录会在模板的同级目录下创建，也可以通过 `--dir /path/to/target` 自定义。
-- 如果只传 `my_service`，模块名也会替换成 `my_service`；推荐显式传入完整的 Go Module 路径（`--module`）。
-- 脚本会自动执行 `go mod tidy` 并初始化 Git 仓库，可通过 `--skip-tidy` / `--skip-git` 关闭。
+- CLI 默认会尝试根据自身路径找到模板目录，也可通过环境变量 `GIN_TEMPLATE_ROOT=/absolute/path/to/gin_template` 或参数 `--template` 指定模板位置。
+- 可选参数包括 `--dir`（目标目录）、`--skip-git`、`--skip-tidy`。
 
 ### Hot reload (Air)
 
