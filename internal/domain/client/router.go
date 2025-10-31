@@ -6,9 +6,9 @@ import (
 	sagin "github.com/click33/sa-token-go/integrations/gin"
 	"github.com/gin-gonic/gin"
 
-	"gin_template/internal/base/repos"
-	userhandler "gin_template/internal/domain/client/user"
-	usersvc "gin_template/internal/domain/shared/user/service"
+	"github.com/wiidz/gin_template/internal/base/repos"
+	userhandler "github.com/wiidz/gin_template/internal/domain/client/user"
+	usersvc "github.com/wiidz/gin_template/internal/domain/shared/user/service"
 
 	idmng "github.com/wiidz/goutil/mngs/identityMng"
 )

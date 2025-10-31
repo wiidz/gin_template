@@ -1,4 +1,4 @@
-module gin_template
+module github.com/wiidz/gin_template
 
 go 1.25.3
 
@@ -11,7 +11,9 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/wiidz/goutil v0.5.3-0.20251030073416-7275839850f2
 	go.uber.org/zap v1.27.0
+	golang.org/x/crypto v0.41.0
 	golang.org/x/time v0.5.0
+	gorm.io/gorm v1.26.0
 )
 
 // replace github.com/wiidz/goutil => /Users/本地/Code-local/goutil
@@ -69,7 +71,6 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.43.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
@@ -81,6 +82,5 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
 	gorm.io/driver/postgres v1.6.0 // indirect
-	gorm.io/gorm v1.26.0 // indirect
 	gorm.io/plugin/dbresolver v1.6.0 // indirect
 )

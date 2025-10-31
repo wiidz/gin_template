@@ -1,15 +1,14 @@
 package console
 
 import (
-	"context"
 	"net/http"
 
 	sagin "github.com/click33/sa-token-go/integrations/gin"
 	"github.com/gin-gonic/gin"
 
-	"gin_template/internal/base/repos"
-	userhandler "gin_template/internal/domain/console/user"
-	usersvc "gin_template/internal/domain/shared/user/service"
+	"github.com/wiidz/gin_template/internal/base/repos"
+	userhandler "github.com/wiidz/gin_template/internal/domain/console/user"
+	usersvc "github.com/wiidz/gin_template/internal/domain/shared/user/service"
 
 	idmng "github.com/wiidz/goutil/mngs/identityMng"
 )
@@ -21,7 +20,7 @@ func BuildEngine() *gin.Engine {
 	mng, _ := idmng.NewMng(&idmng.Config{DefaultDevice: "client"})
 	// repos.Setup 应在 server/main 处传入
 	uRepo := repos.User.Repo
-	uSvc := usersvc.New(uRepo, &authAdapter{mng: mng})
+	uSvc := usersvc.New(uRepo, mng)
 	uConsole := userhandler.NewConsoleHandler(uSvc)
 
 	e.GET("/health", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"status": "ok"}) })
@@ -39,16 +38,3 @@ func BuildEngine() *gin.Engine {
 	}
 	return e
 }
-
-// 与 client 复用相同适配器
-type authAdapter struct{ mng *idmng.IdentityMng }
-
-func (a *authAdapter) Login(ctx context.Context, loginId, device string) (string, string, error) {
-	pair, err := a.mng.Login(ctx, loginId, device)
-	if err != nil {
-		return "", "", err
-	}
-	return pair.AccessToken, pair.RefreshToken, nil
-}
-func (a *authAdapter) Logout(ctx context.Context) error          { return a.mng.Logout(ctx) }
-func (a *authAdapter) CurrentLoginID(ctx context.Context) string { return a.mng.CurrentLoginID(ctx) }

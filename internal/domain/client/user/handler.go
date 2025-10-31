@@ -7,9 +7,9 @@ import (
 	"github.com/wiidz/goutil/helpers/paramHelper"
 	"github.com/wiidz/goutil/structs/networkStruct"
 
-	"gin_template/internal/common/response"
-	"gin_template/internal/domain/shared/user/dto"
-	usersvc "gin_template/internal/domain/shared/user/service"
+	"github.com/wiidz/gin_template/internal/common/response"
+	"github.com/wiidz/gin_template/internal/domain/shared/user/dto"
+	usersvc "github.com/wiidz/gin_template/internal/domain/shared/user/service"
 )
 
 type ClientHandler struct{ S *usersvc.Service }

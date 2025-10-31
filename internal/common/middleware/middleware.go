@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 
-	"gin_template/internal/common/logger"
+	"github.com/wiidz/gin_template/internal/common/logger"
 )
 
 func RequestID() gin.HandlerFunc {

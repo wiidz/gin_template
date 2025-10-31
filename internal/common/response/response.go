@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"gin_template/internal/common/logger"
+	"github.com/wiidz/gin_template/internal/common/logger"
 )
 
 type SuccessResponse[T any] struct {

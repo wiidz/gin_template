@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"gin_template/internal/domain/shared/user/dto"
-	"gin_template/internal/domain/shared/user/entity"
-	"gin_template/internal/domain/shared/user/model"
+	"github.com/wiidz/gin_template/internal/domain/shared/user/dto"
+	"github.com/wiidz/gin_template/internal/domain/shared/user/entity"
+	"github.com/wiidz/gin_template/internal/domain/shared/user/model"
 
 	idmng "github.com/wiidz/goutil/mngs/identityMng"
 	repoMng "github.com/wiidz/goutil/mngs/repoMng"

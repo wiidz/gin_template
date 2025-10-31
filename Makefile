@@ -1,5 +1,5 @@
 BIN=gin-template
-PKG=gin_template/cmd/server
+PKG=github.com/wiidz/gin_template/cmd/server
 
 .PHONY: run build tidy fmt lint test dev
 

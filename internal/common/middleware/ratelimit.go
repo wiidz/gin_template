@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/time/rate"
 
-	"gin_template/internal/common/response"
+	"github.com/wiidz/gin_template/internal/common/response"
 )
 
 // RateLimit applies a global token-bucket limiter per process.

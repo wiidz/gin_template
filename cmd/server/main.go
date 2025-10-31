@@ -12,11 +12,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"gin_template/internal/base/app"
-	"gin_template/internal/base/config"
-	"gin_template/internal/base/repos"
-	"gin_template/internal/base/server"
-	"gin_template/internal/common/logger"
+	"github.com/wiidz/gin_template/internal/base/app"
+	"github.com/wiidz/gin_template/internal/base/config"
+	"github.com/wiidz/gin_template/internal/base/repos"
+	"github.com/wiidz/gin_template/internal/base/server"
+	"github.com/wiidz/gin_template/internal/common/logger"
 )
 
 func main() {

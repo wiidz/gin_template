@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	sourceModule    = "gin_template"
+	sourceModule    = "github.com/wiidz/gin_template"
 	envTemplateRoot = "GIN_TEMPLATE_ROOT"
 )
 
@@ -114,7 +114,7 @@ func handleNew(args []string) error {
 	fmt.Println("Next steps:")
 	fmt.Printf("  cd %s\n", targetDir)
 	if !cfg.skipGit {
-		fmt.Println("  git commit -m 'bootstrap from gin_template'")
+		fmt.Println("  git commit -m 'bootstrap from template'")
 	}
 	fmt.Println("  Review configs and README for project-specific tweaks")
 	return nil

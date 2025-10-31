@@ -3,7 +3,7 @@ package repos
 import (
 	"log"
 
-	"gin_template/internal/domain/shared/user/entity"
+	"github.com/wiidz/gin_template/internal/domain/shared/user/entity"
 
 	"github.com/wiidz/goutil/mngs/psqlMng"
 	repoMng "github.com/wiidz/goutil/mngs/repoMng"

@@ -10,9 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"gin_template/internal/common/middleware"
-	clientport "gin_template/internal/domain/client"
-	consoleport "gin_template/internal/domain/console"
+	"github.com/wiidz/gin_template/internal/common/middleware"
+	clientport "github.com/wiidz/gin_template/internal/domain/client"
+	consoleport "github.com/wiidz/gin_template/internal/domain/console"
 )
 
 type Server struct {

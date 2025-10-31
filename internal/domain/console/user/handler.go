@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	usersvc "gin_template/internal/domain/shared/user/service"
+	usersvc "github.com/wiidz/gin_template/internal/domain/shared/user/service"
 )
 
 type ConsoleHandler struct{ S *usersvc.Service }

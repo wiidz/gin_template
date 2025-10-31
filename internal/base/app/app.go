@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"gin_template/internal/base/config"
+	"github.com/wiidz/gin_template/internal/base/config"
 
 	appMng "github.com/wiidz/goutil/mngs/appMng"
 	"github.com/wiidz/goutil/structs/configStruct"
