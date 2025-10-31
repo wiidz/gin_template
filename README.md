@@ -15,6 +15,18 @@ make tidy
 make run
 ```
 
+### Bootstrap new project
+
+Use the helper script to copy this template and rewrite the module path quickly:
+
+```bash
+scripts/new_project.sh my_service --module github.com/you/my_service
+```
+
+- 默认目标目录会在模板的同级目录下创建，也可以通过 `--dir /path/to/target` 自定义。
+- 如果只传 `my_service`，模块名也会替换成 `my_service`；推荐显式传入完整的 Go Module 路径（`--module`）。
+- 脚本会自动执行 `go mod tidy` 并初始化 Git 仓库，可通过 `--skip-tidy` / `--skip-git` 关闭。
+
 ### Hot reload (Air)
 
 ```bash
