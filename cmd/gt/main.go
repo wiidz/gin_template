@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	sourceModule    = "github.com/wiidz/gin_template"
-	envTemplateRoot = "GIN_TEMPLATE_ROOT"
+	sourceModule       = "github.com/wiidz/gin_template"
+	envTemplateRoot    = "GIN_TEMPLATE_ROOT"
+	defaultTemplateGit = "https://github.com/wiidz/gin_template.git"
 )
 
 type newConfig struct {
@@ -143,7 +144,12 @@ func determineTemplateDir(flagValue string) (string, error) {
 		}
 	}
 
-	return "", errors.New("unable to detect template directory; specify with --template or set GIN_TEMPLATE_ROOT")
+	cacheDir, cacheErr := ensureTemplateCache()
+	if cacheErr == nil {
+		return cacheDir, nil
+	}
+
+	return "", fmt.Errorf("unable to detect template directory; specify --template, set %s, or ensure git can clone %s (last error: %v)", envTemplateRoot, defaultTemplateGit, cacheErr)
 }
 
 func determineTargetDir(flagValue, templateDir, projectName string) (string, error) {
@@ -251,6 +257,61 @@ func copyTemplate(cfg newConfig) error {
 
 		return nil
 	})
+}
+
+func ensureTemplateCache() (string, error) {
+	cacheBase, err := os.UserCacheDir()
+	if err != nil {
+		return "", err
+	}
+	target := filepath.Join(cacheBase, "gt", "templates", "github.com", "wiidz", "gin_template")
+	if !exists(target) {
+		if err := cloneTemplate(target); err != nil {
+			return "", err
+		}
+	} else if !looksLikeTemplateRoot(target) {
+		return "", fmt.Errorf("cached template at %s does not look like %s; delete it or specify --template", target, sourceModule)
+	} else {
+		if err := updateTemplate(target); err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to update cached template at %s: %v\n", target, err)
+		}
+	}
+
+	if !looksLikeTemplateRoot(target) {
+		return "", fmt.Errorf("template at %s is missing go.mod with module %s", target, sourceModule)
+	}
+	return target, nil
+}
+
+func cloneTemplate(target string) error {
+	if _, err := exec.LookPath("git"); err != nil {
+		return errors.New("git executable not found; install git or set template path via --template or GIN_TEMPLATE_ROOT")
+	}
+	if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
+		return err
+	}
+	fmt.Fprintf(os.Stderr, "Cloning template repository %s\n", defaultTemplateGit)
+	cmd := exec.Command("git", "clone", "--depth=1", defaultTemplateGit, target)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		_ = os.RemoveAll(target)
+		return fmt.Errorf("git clone failed: %w", err)
+	}
+	return nil
+}
+
+func updateTemplate(target string) error {
+	if _, err := exec.LookPath("git"); err != nil {
+		return nil
+	}
+	cmd := exec.Command("git", "-C", target, "pull", "--ff-only")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("git pull failed: %w", err)
+	}
+	return nil
 }
 
 func replaceInPath(path, projectName string) string {

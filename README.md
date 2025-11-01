@@ -17,18 +17,63 @@ make run
 
 ### Bootstrap new project
 
-使用 Go CLI（可编译为二进制，更适合全局调用）：
+方式一：一键脚本（推荐）
 
 ```bash
-go run ./cmd/gt new my_service --module github.com/you/my_service
+# 从本地模板复制（无网络）
+scripts/new_project.sh \
+  --module github.com/you/my_service \
+  --template "/absolute/path/to/gin_template" \
+  --dir "/absolute/path/to/my_service"
+
+# 或直接远程克隆模板并初始化
+scripts/new_project.sh \
+  --module github.com/you/my_service \
+  --dir "/absolute/path/to/my_service"
+
+# 已在模板目录中，原地去模板化
+cd "/absolute/path/to/gin_template"
+scripts/new_project.sh --module github.com/you/my_service --in-place
+```
+
+方式二：使用 Go CLI（可编译为二进制，更适合全局调用）
+
+```bash
+# 推荐把所有 flags 放在项目名之前（Go flag 在遇到第一个非 flag 参数后停止解析）
+go run ./cmd/gt new \
+  --module github.com/you/my_service \
+  --template "/absolute/path/to/gin_template" \
+  --dir "/absolute/path/to/my_service" \
+  my_service
+
 # 或者本地编译后放到 PATH 中
-go build -o ~/bin/gt ./cmd/gt && gt new my_service --module github.com/you/my_service
+go build -o ~/bin/gt ./cmd/gt && \
+gt new --module github.com/you/my_service --dir "/absolute/path/to/my_service" my_service
+
 # 或直接安装远程版本
 go install github.com/wiidz/gin_template/cmd/gt@latest
 ```
 
-- CLI 默认会尝试根据自身路径找到模板目录，也可通过环境变量 `GIN_TEMPLATE_ROOT=/absolute/path/to/gin_template` 或参数 `--template` 指定模板位置。
-- 可选参数包括 `--dir`（目标目录）、`--skip-git`、`--skip-tidy`。
+- CLI 会自动探测模板目录；也可通过环境变量 `GIN_TEMPLATE_ROOT=/absolute/path/to/gin_template` 或参数 `--template` 指定。
+- 可选参数包括 `--dir`（目标目录，必须不存在）、`--skip-git`、`--skip-tidy`。
+- 未显式指定时，CLI 会自动将模板仓库克隆/更新到用户缓存目录（默认地址 `https://github.com/wiidz/gin_template.git`），无需手动拷贝模板。
+
+方式三：手动克隆并去模板化
+
+```bash
+git clone https://github.com/wiidz/gin_template.git my_service
+cd my_service
+rm -rf .git cmd/gt tmp scripts/new_project.sh
+
+# 修改 module 与导入路径
+sed -i '' "s|^module github.com/wiidz/gin_template|module github.com/you/my_service|" go.mod
+find . -type f \( -name '*.go' -o -name 'go.mod' -o -name '*.sum' -o -name '*.yaml' -o -name '*.toml' -o -name 'Makefile' \) \
+  -not -path './.git/*' -not -path './cmd/gt/*' -not -path './tmp/*' \
+  -exec sed -i '' "s|github.com/wiidz/gin_template|github.com/you/my_service|g" {} +
+
+git init && git add . && git commit -m "bootstrap from template"
+go mod tidy
+```
 
 ### Hot reload (Air)
 
