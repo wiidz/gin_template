@@ -17,24 +17,17 @@ make run
 
 ### Bootstrap new project
 
-方式一：一键脚本（推荐）
+方式一：克隆后执行交互式脚本（推荐）
 
 ```bash
-# 从本地模板复制（无网络）
-scripts/new_project.sh \
-  --module github.com/you/my_service \
-  --template "/absolute/path/to/gin_template" \
-  --dir "/absolute/path/to/my_service"
-
-# 或直接远程克隆模板并初始化
-scripts/new_project.sh \
-  --module github.com/you/my_service \
-  --dir "/absolute/path/to/my_service"
-
-# 已在模板目录中，原地去模板化
-cd "/absolute/path/to/gin_template"
-scripts/new_project.sh --module github.com/you/my_service --in-place
+git clone https://github.com/wiidz/gin_template.git my_service
+cd my_service
+bash scripts/init.sh
 ```
+
+- 脚本会提示输入项目名与 Go module（默认使用当前目录名和 `github.com/you/<name>`）。
+- 执行内容：删除模板专用目录（`.git`、`cmd/gt`、`tmp`、`scripts/`）、替换 module 与导入路径、`git init && go mod tidy`，最后自清理脚本本身。
+- 运行成功后，直接 `make run` 或 `make tidy && make run`。
 
 方式二：使用 Go CLI（可编译为二进制，更适合全局调用）
 
@@ -58,12 +51,12 @@ go install github.com/wiidz/gin_template/cmd/gt@latest
 - 可选参数包括 `--dir`（目标目录，必须不存在）、`--skip-git`、`--skip-tidy`。
 - 未显式指定时，CLI 会自动将模板仓库克隆/更新到用户缓存目录（默认地址 `https://github.com/wiidz/gin_template.git`），无需手动拷贝模板。
 
-方式三：手动克隆并去模板化
+方式三：完全手动（备选）
 
 ```bash
 git clone https://github.com/wiidz/gin_template.git my_service
 cd my_service
-rm -rf .git cmd/gt tmp scripts/new_project.sh
+rm -rf .git cmd/gt tmp scripts
 
 # 修改 module 与导入路径
 sed -i '' "s|^module github.com/wiidz/gin_template|module github.com/you/my_service|" go.mod
